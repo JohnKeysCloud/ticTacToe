@@ -1,0 +1,247 @@
+/* The typing effect */
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink-caret {
+  from,
+  to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: var(--color-mashumaro);
+  }
+}
+
+@keyframes blink {
+	to {
+		opacity: 0;
+	}
+}
+
+@keyframes destroy {
+	to {
+		opacity: 0;
+	}
+}
+
+body {
+  background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+  color: var(--color-mashumaro);
+  font-family: 'Space Mono', monospace;
+}
+
+main {
+  display: grid;
+  min-height: 100vh;
+	/* overflow: hidden; */
+	position: relative;
+  place-items: center;
+}
+
+main #intro-container > * {
+	height: inherit;
+	inset: 0;
+	margin: auto;
+	position: absolute;
+}
+
+main #intro-container.destroying {
+	animation: 1.88s destroy ease-out forwards;
+} 
+
+/* ! */
+/* ! */
+/* ! */
+
+main #intro-container #intro-presents {
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	gap: 2rem;
+	justify-content: center;
+	pointer-events: none;
+	transition: all 3s ease-in-out;
+}
+
+main #intro-container #intro-presents.active {
+	opacity: 1;
+	transform: scale(1);
+	visibility: visible;
+}
+
+main #intro-container #intro-presents.inactive {
+	opacity: 0;
+  transform: scale(0);
+	visibility: hidden;
+}
+
+main #intro-container #intro-presents #mega-logo {
+  width: clamp(333px, 55vw, 555px);
+  filter: drop-shadow(0 0 8px var(--color-mashumaro));
+}
+
+main #intro-container #intro-presents .typewriter p {
+  animation: typing 3s steps(11, end), blink-caret 0.88s step-end infinite;
+  border-right: 0.03em solid var(--color-mashumaro); /* The typwriter cursor */
+  font-size: clamp(1.313rem, 3.5vw, 1.75rem);
+  margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+  overflow: hidden; /* Ensures the content is not revealed until the animation */
+  text-shadow: 0 0 8px var(--color-mashumaro);
+  white-space: nowrap; /* Keeps the content on a single line */
+}
+
+/* ! */
+/* ! */
+/* ! */
+
+main #intro-container #intro-menu {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+	height: max-content;
+	pointer-events: none;
+	width: max-content;
+	transition: all 5s ease-in-out;
+}
+
+main #intro-container #intro-menu.inactive {
+	opacity: 0;
+	transform: scale(0);
+	visibility: hidden;
+}
+
+main #intro-container #intro-menu.active {
+	opacity: 1;
+	transform: scale(1);
+	visibility: visible;
+}
+
+main #intro-container #intro-menu h1 {
+  color: var(--color-mashumaro);
+  font-family: 'Cyclone', monospace;
+  font-size: clamp(10rem, 18vw, 15rem);
+	line-height: 1;
+	margin-bottom: 3rem;
+  text-shadow: 0 8px 8px var(--color-kuro);
+	transition: transform 1.88s ease-in-out;
+}
+
+main #intro-container.destroying #intro-menu h1 {
+	transform: rotate(8turn) scale(0);
+}
+
+main #intro-container #intro-menu.inactive h1 #tic,
+main #intro-container #intro-menu.inactive h1 #tac,
+main #intro-container #intro-menu.inactive h1 #toe,
+main #intro-container #intro-menu.inactive #press-start-button {
+  opacity: 0;
+	transform: translateY(-100vh); 
+}
+
+main #intro-container #intro-menu.active h1 #tic,
+main #intro-container #intro-menu.active h1 #tac,
+main #intro-container #intro-menu.active h1 #toe {
+  opacity: 1;
+	transform: translateY(0); 
+}
+
+main #intro-container #intro-menu.active h1 #tic {
+  transition: opacity 5s ease-in-out 2s, transform 3s ease-in-out 2s;
+}
+
+main #intro-container #intro-menu.active h1 #tac {
+  transition: opacity 5s ease-in-out 4s, transform 3s ease-in-out 4s;
+}
+
+main #intro-container #intro-menu.active h1 #toe {
+  transition: opacity 5s ease-in-out 6s, transform 3s ease-in-out 6s;
+}
+
+main #intro-container #intro-menu #press-start-button {
+	color: var(--color-binky);
+	cursor: pointer;
+	font-size: clamp(1.313rem, 3.5vw, 1.75rem);
+	pointer-events: all;
+	text-shadow: 0 0 8px;
+	transition: opacity 5s ease-in-out 8s, transform 3s ease-in-out 8s;
+}
+
+main #intro-container #intro-menu.active #press-start-button {
+	animation: blink 888ms ease-in-out infinite alternate;
+	opacity: 1;
+	transform: translateY(0);
+	transition: transform 111ms ease-in-out;
+}
+
+main #intro-container #intro-menu.active #press-start-button:hover {
+	animation: blink 333ms ease-in-out infinite alternate;
+	transform: scale(1.125);
+}
+
+/* ! */
+/* ! */
+/* ! */
+
+main #game-container.hidden {
+	opacity: 0;
+	pointer-events: none;
+	transform: scale(0);
+	visibility: hidden;
+}
+
+main #tic-tac-toe {
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  position: relative;
+}
+
+main #tic-tac-toe::before,
+main #tic-tac-toe::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  width: 3px;
+  height: 100%;
+  background: var(--color-mashumaro);
+  z-index: 1;
+}
+
+main #tic-tac-toe::before {
+  left: 33.333%;
+}
+
+main #tic-tac-toe::after {
+  right: 33.333%;
+}
+
+main #tic-tac-toe > * {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+main #tic-tac-toe #top-row {
+  border-bottom: 3px solid var(--color-mashumaro);
+}
+
+main #tic-tac-toe #middle-row {
+  border-bottom: 3px solid var(--color-mashumaro);
+  /* border-radius: 25px; */
+}
+
+main #tic-tac-toe .game-choice {
+  cursor: pointer;
+  color: var(--color-mashumaro);
+
+  font-size: 2rem;
+  height: 8rem;
+  width: 8rem;
+  line-height: 1;
+}
