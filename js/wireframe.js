@@ -10,9 +10,6 @@
       this.introContainer = this.main.querySelector('#intro-container');
       this.introPresents = this.main.querySelector('#intro-presents');
       this.introMenu = this.main.querySelector('#intro-menu');
-      this.pressStartButton = this.introMenu.querySelector(
-        '#press-start-button'
-      );
     },
     bindEvents: function () {
       this.main.addEventListener(
