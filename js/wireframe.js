@@ -10,10 +10,15 @@
       this.introContainer = this.main.querySelector('#intro-container');
       this.introPresents = this.main.querySelector('#intro-presents');
       this.introMenu = this.main.querySelector('#intro-menu');
-      this.pressStartButton = this.introMenu.querySelector('#press-start-button');
+      this.pressStartButton = this.introMenu.querySelector(
+        '#press-start-button'
+      );
     },
     bindEvents: function () {
-      this.main.addEventListener('click', this.destroyModule.bind(this.introContainer));
+      this.main.addEventListener(
+        'click',
+        this.destroyModule.bind(this.introContainer)
+      );
     },
     render: function () {
       this.delay(() => {
@@ -34,7 +39,7 @@
       this.addEventListener('animationend', () => {
         this.remove();
       });
-    }
+    },
   };
-  wireFrame.init()
+  wireFrame.init();
 })();
