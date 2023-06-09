@@ -14,48 +14,68 @@
   <link rel="stylesheet" href="css/styles.css">
   <script src="js/year.js" defer></script>
   <script src="js/wireframe.js" defer></script>
-  <script src="js/main.js" defer></script>
+  <!-- <script src="js/app.js" defer></script> -->
 </head>
 <body>
   <main>
-    <div id="intro-container">
-      <div id="intro-presents" class="active no-select">
+    <section id="intro-container">
+      <section id="intro-presents" class="active no-select">
         <img id="mega-logo" src="assets/media/images/logos/cycloneStudios.svg" alt="Cyclone Studios Logo"/>
         <div class="typewriter">
           <p>presents...</p>
         </div>
-      </div>
-      <div id="intro-menu" class="inactive no-select">
+      </section>
+      <section id="intro-menu" class="inactive no-select">
         <h1>
           <div id="tic">tic</div>
           <div id="tac">Tac</div>
           <div id="toe">Toe</div>
         </h1>
         <button id="press-start-button">press start</button>
-      </div>
-    </div>
+      </section>
+      <section id="game-menu" class="inactive no-select"> 
+        <section id="player-mark-container">
+          <h2>player one, <br> select your marker:</h2>
+          <div id="player-mark-buttons">
+            <input type="radio" name="player-mark" id="x">
+            <label class="radio-label" for="x" aria-label="Player One">
+              <span class="player-mark x">X</span>
+            </label>
+            <input type="radio" name="player-mark" id="o">
+            <label class="radio-label" for="o" aria-label="Player Two">
+              <span class="player-mark o">O</span>
+            </label>
+          </div>
+        </section>
+        <div id="players-container">
+          <div id="pvb-container">
+            <div id="pvb-select-container">
+              <label for="difficulty">difficulty:</label>
+              <select name="difficulty" id="difficulty" required disabled>
+                <option value="" disabled selected>choose</option>
+                <option value="easy">easy</option>
+                <option value="medium">medium</option>
+                <option value="hard">hard</option>
+                <option value="god">god</option>
+              </select>
+            </div>
+            <button id="pvb-button" type="submit" disabled>Player vs Bot</button>
+          </div>
+          <button id="pvp-button" type="submit">Player vs Player</button>
+        </div>
+      </section>
+    </section>
 
-    <div id="game-container" class="hidden">
-      <div id="controls">
-      </div>
-      <div id="tic-tac-toe">
-        <div id="top-row">
-          <button class="game-choice" data-index="0"></button>
-          <button class="game-choice" data-index="1"></button>
-          <button class="game-choice" data-index="2"></button>
-        </div>
-        <div id="middle-row">
-          <button class="game-choice" data-index="3"></button>
-          <button class="game-choice" data-index="4"></button>
-          <button class="game-choice" data-index="5"></button>
-        </div>
-        <div id="bottom-row">
-          <button class="game-choice" data-index="6"></button>
-          <button class="game-choice" data-index="7"></button>
-          <button class="game-choice" data-index="8"></button>
-        </div>
-      </div>
-    </div>
+
+
+    <!-- <div id="game-container" class="hidden"> 
+      <section id="information">
+      
+
+      </section>
+      <section id="tic-tac-toe">
+      </section>
+    </div> -->
 
   </main>
   <footer>

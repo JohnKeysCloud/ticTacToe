@@ -8,6 +8,54 @@
   }
 }
 
+@keyframes flicker {
+	0% {
+		opacity: 1;
+	}
+	30% {
+		opacity: 0;
+	}
+	35% {
+		opacity: 1;
+	}
+	50% {
+		opacity: 0;
+	}
+	53% {
+		opacity: 1;
+	}
+	58% {
+		opacity: 0;
+	}
+	70% {
+		opacity: 1;
+	}
+	72% {
+		opacity: 0;
+	}
+	76% {
+		opacity: 1;
+	}
+	82% {
+		opacity: 0;
+	}
+	90% {
+		opacity: 1;
+	}
+	93% {
+		opacity: 0;
+	}
+	95% {
+		opacity: 1;
+	}
+	98% {
+		opacity: 0;
+	}
+	100% {
+		opacity: 1;
+	}
+}
+
 @keyframes blink-caret {
   from,
   to {
@@ -120,6 +168,7 @@ main #intro-container #intro-menu.inactive {
 main #intro-container #intro-menu.active {
 	opacity: 1;
 	transform: scale(1);
+	transition: all 5s ease-in-out;
 	visibility: visible;
 }
 
@@ -143,6 +192,7 @@ main #intro-container #intro-menu.inactive h1 #toe,
 main #intro-container #intro-menu.inactive #press-start-button {
   opacity: 0;
 	transform: translateY(-100vh); 
+	transition: opacity 2s ease-in-out, transform 2s ease-in-out;
 }
 
 main #intro-container #intro-menu.active h1 #tic,
@@ -173,7 +223,7 @@ main #intro-container #intro-menu #press-start-button {
 	transition: opacity 5s ease-in-out 8s, transform 3s ease-in-out 8s;
 }
 
-main #intro-container #intro-menu.active #press-start-button {
+main #intro-container #intro-menu #press-start-button {
 	animation: blink 888ms ease-in-out infinite alternate;
 	opacity: 1;
 	transform: translateY(0);
@@ -189,42 +239,262 @@ main #intro-container #intro-menu.active #press-start-button:hover {
 /* ! */
 /* ! */
 
-main #game-container.hidden {
+main #intro-container #game-menu {
+  align-items: center;
+  display: flex;
+	gap: 2rem;
+	height: max-content;
+  flex-direction: column;
+  justify-items: center;	
+	text-shadow: 0 0 8px;
+	transition: all 380ms ease-in-out 1.5s;
+}
+
+main #intro-container #game-menu.inactive {
 	opacity: 0;
-	pointer-events: none;
 	transform: scale(0);
 	visibility: hidden;
 }
 
-main #tic-tac-toe {
-  display: grid;
-  grid-template-rows: repeat(3, 1fr);
-  position: relative;
+main #intro-container #game-menu.active {
+	opacity: 1;
+	transform: scale(1);
+	visibility: visible;
 }
 
-main #tic-tac-toe::before,
-main #tic-tac-toe::after {
+main #intro-container #game-menu #player-mark-container {
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+}
+
+main #intro-container #game-menu #player-mark-container h2 {
+	font-size: clamp(1.5rem, 3vw, 2rem);
+	margin-bottom: 25px;
+	text-align: center;
+}
+
+main #intro-container #game-menu #player-mark-container #player-mark-buttons {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 15vw;
+}
+
+main #intro-container #game-menu #player-mark-container #player-mark-buttons > * {
+	color: var(--color-mashumaro);
+	font-size: clamp(7rem, 15vw, 11rem);
+}
+
+main #intro-container #game-menu #player-mark-container #player-mark-buttons input[type='radio'] {
+	display: none;
+}
+
+main #intro-container #game-menu #player-mark-container #player-mark-buttons .radio-label {
+	cursor: pointer;
+	line-height: 1;
+	margin-bottom: 25px;
+	text-shadow: none;
+	transform: scale(0.75);
+	-webkit-transition: all 500ms cubic-bezier(0.785, 0.135, 0.15, 0.86);
+	transition: all 500ms cubic-bezier(0.785, 0.135, 0.15, 0.86);
+}
+
+main #intro-container #game-menu #player-mark-container #player-mark-buttons .radio-label:hover {
+	transform: scale(1);
+}
+
+main #intro-container #game-menu #player-mark-container #player-mark-buttons input[type='radio']:checked + .radio-label {
+	transform: scale(1.25) rotate(3turn);
+}
+
+main #intro-container #game-menu #player-mark-container #player-mark-buttons .radio-label .x {
+	position: relative;
+	z-index: 1;
+}
+
+main #intro-container #game-menu #player-mark-container #player-mark-buttons .radio-label .x::before {
+    content: 'X';
+    display: grid;
+    inset: 0;
+    opacity: 0;
+    place-items: center;
+    position: absolute;
+    text-shadow: 0 0 15px var(--color-binky);
+    transition: opacity 380ms ease-in-out;
+    z-index: 0;
+}
+
+main #intro-container #game-menu #player-mark-container #player-mark-buttons .radio-label .x::after {
+	background: center / cover no-repeat url('../assets/media/images/glitch.gif');
   content: '';
+	filter: hue-rotate(30deg);
+  height: 70%;
+  inset: 0;
+  margin: auto;
   position: absolute;
-  top: 0;
-  width: 3px;
+  transform: scaleY(0) ;
+	transform-origin: top;
+  transition: all 380ms ease-in-out 500ms;
+  z-index: -1;
+}
+
+main #intro-container #game-menu #player-mark-container #player-mark-buttons .radio-label .o {
+	position: relative;
+	z-index: 1;
+}
+
+main #intro-container #game-menu #player-mark-container #player-mark-buttons .radio-label .o::before {
+	content: 'O';
+	display: grid;
+	opacity: 0;
+	inset: 0;
+	place-items: center;
+	position: absolute;
+	line-height: inherit;
+	text-shadow: 0 0 15px var(--color-funky);
+	transition: opacity 380ms ease-in-out;
+	z-index: 0;
+}
+
+main #intro-container #game-menu #player-mark-container #player-mark-buttons .radio-label .o::after {
+	background: center / cover no-repeat url('../assets/media/images/glitch.gif');
+  content: '';
+	filter: hue-rotate(100deg);
+  height: 70%;
+  inset: 0;
+  margin: auto;
+  position: absolute;
+  transform: scaleY(0) ;
+	transform-origin: bottom;
+  transition: all 380ms ease-in-out 500ms;
+  z-index: -1;
+}
+
+main #intro-container #game-menu #player-mark-container #player-mark-buttons input[type='radio']:checked + .radio-label *::before {
+	animation: flicker 1s linear infinite; 
+	opacity: 1;
+}
+
+main #intro-container #game-menu #player-mark-container #player-mark-buttons input[type='radio']:checked + .radio-label *::after {
+	opacity: 0.3;
+	transform: scaleY(1);
+}
+
+main #intro-container #game-menu #players-container {
+	display: flex;
+	flex-direction: column;
+	gap: 25px;
+}
+
+@media screen and (min-width: 768px) {
+	main #intro-container #game-menu #players-container {
+		align-items: end;
+		gap: min(8vw, 175px);
+		flex-direction: row;
+	}
+}
+
+main #intro-container #game-menu #players-container button {
+  border: 2px solid var(--color-mashumaro);
+  border-radius: 100vw;
+  box-shadow: 0 0 8px;
+  color: var(--color-mashumaro);
+	cursor: pointer;
+  height: 100px;
+  padding: 0px 20px;
+	position: relative;
+	overflow: hidden;
+	transition: 380ms transform ease-in-out ;
+  width: 250px;
+}
+
+main #intro-container #game-menu #players-container button:hover {
+	transform: scale(1.1)
+} 
+
+main #intro-container #game-menu #players-container button::before {
+  background-color: rgba(128, 128, 128, 0.177);
+  border-radius: inherit;
+  content: '';
   height: 100%;
-  background: var(--color-mashumaro);
-  z-index: 1;
+  inset: 0;
+  position: absolute;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: all 380ms cubic-bezier(0.445, 0.05, 0.55, 0.95);
+  width: 100%;
+  z-index: -1;
 }
 
-main #tic-tac-toe::before {
-  left: 33.333%;
+main #intro-container #game-menu #players-container button:hover::before {
+	transform: scaleX(1);
+} 
+
+main #intro-container #game-menu #pvb-container {
+	align-items: center;
+	display: flex;
+	flex-direction: column;	
+	gap: 2rem;
+	justify-content: center;
 }
 
-main #tic-tac-toe::after {
-  right: 33.333%;
+main #intro-container #game-menu #players-container #pvb-container #pvb-select-container {
+	align-items: center;
+	display: flex;
+	gap: 1rem;
+	justify-content: space-between;
 }
 
-main #tic-tac-toe > * {
-  align-items: center;
-  display: flex;
-  justify-content: center;
+main #intro-container #game-menu #players-container #pvb-select-container select {
+	background-color: transparent;
+	border: 2px solid var(--color-mashumaro);
+	border-radius: 100vw;
+	box-shadow: 0 0 8px;
+	color: var(--color-mashumaro);
+	cursor: pointer;
+	padding: 10px 20px;
+	text-shadow: inherit;
+}
+
+/* ! */
+/* ! */
+/* ! */
+
+/* main #game-container.hidden {
+	opacity: 0;
+	pointer-events: none;
+	transform: scale(0);
+	visibility: hidden;
+} */
+
+main #tic-tac-toe {
+	aspect-ratio: 1 / 1;
+	/* border: 2px solid var(--color-mashumaro); */
+  display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-template-rows: repeat(3, 1fr);
+	gap: 0.75rem;
+
+	width: clamp(320px, 55vw, 450px);
+  position: relative;
+	flex-wrap: wrap;
+}
+
+main #tic-tac-toe .game-square {
+	border-radius: 33px;
+	color: white;
+	cursor: pointer;
+	background-color: hsla(210, 15%, 24%, 0.75);
+	font-weight: 500;
+	font-size: 3rem;
+	text-shadow: 0 0 8px;
+	transition: transform 111ms ease-in-out;
+}
+
+main #tic-tac-toe .game-square:hover {
+	opacity: 0.8;
+	transform: scale(1.03);
+
 }
 
 main #tic-tac-toe #top-row {

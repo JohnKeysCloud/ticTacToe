@@ -12,7 +12,7 @@
   /* * MAiN COLORS */
   --color-kuro: black;
   --color-dusk: #212121;
-  --color-mashumaro: #fffce8;
+  --color-mashumaro: rgb(255, 252, 232);
   --color-sora: #87ceeb;
 
   /* * PUCK-MAN */
@@ -224,6 +224,15 @@ select {
 em {
   font-style: italic;
 }
+
+*[disabled] {
+  cursor: not-allowed !important;
+  opacity: 0.25;
+}
+
+*[disabled]:hover {
+  transform: none !important;
+} 
 
 .accessibility {
   position: absolute;
