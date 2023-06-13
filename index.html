@@ -12,12 +12,15 @@
   <link rel="icon" href="assets/media/images/logos/cyclone-favicon.gif" type="image/gif">
   <link rel="stylesheet" href="css/cyclone-reset.css">
   <link rel="stylesheet" href="css/styles.css">
+  <script src="js/eventemitter.js" defer></script>
   <script src="js/year.js" defer></script>
   <script src="js/wireframe.js" defer></script>
-  <!-- <script src="js/app.js" defer></script> -->
+  <script src="js/app.js" defer></script>
+  <script src="js/scoreBoard.js" defer></script>
 </head>
 <body>
   <main>
+
     <section id="intro-container">
       <section id="intro-presents" class="active no-select">
         <img id="mega-logo" src="assets/media/images/logos/cycloneStudios.svg" alt="Cyclone Studios Logo"/>
@@ -31,17 +34,17 @@
           <div id="tac">Tac</div>
           <div id="toe">Toe</div>
         </h1>
-        <button id="press-start-button">press start</button>
+        <button id="press-start-button" type="button">press start</button>
       </section>
       <section id="game-menu" class="inactive no-select"> 
         <section id="player-mark-container">
           <h2>player one, <br> select your marker:</h2>
           <div id="player-mark-buttons">
-            <input type="radio" name="player-mark" id="x">
+            <input type="radio" name="player-mark" id="x" value="X">
             <label class="radio-label" for="x" aria-label="Player One">
               <span class="player-mark x">X</span>
             </label>
-            <input type="radio" name="player-mark" id="o">
+            <input type="radio" name="player-mark" id="o" value="O">
             <label class="radio-label" for="o" aria-label="Player Two">
               <span class="player-mark o">O</span>
             </label>
@@ -59,23 +62,44 @@
                 <option value="god">god</option>
               </select>
             </div>
-            <button id="pvb-button" type="submit" disabled>Player vs Bot</button>
+            <button id="pvb-button" type="button" disabled>Player vs Bot</button>
           </div>
-          <button id="pvp-button" type="submit">Player vs Player</button>
+          <button id="pvp-button" type="button">Player vs Player</button>
         </div>
       </section>
     </section>
 
 
-
-    <!-- <div id="game-container" class="hidden"> 
+    <div id="game-container" class="inactive"> 
+      <h2 id="game-heading">tic tac toe</h2>
       <section id="information">
-      
+        <table id="score-table">
+          <thead>
+            <tr>
+              <th colspan="2" id="score-heading">Score</th>
+            </tr>
+            <tr>
+              <th colspan="1" class="player-title">player one</th>
+              <th colspan="1" class="player-title">player two</th>
+            </tr>
+            <tr>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colspan="1" class="player-score" id="player-one-score"></td>
+              <td colspan="1" class="player-score" id="player-two-score"></td>
+            </tr>
+          </tbody>
 
+        </table>
+      </section>
+      <section id="status-output-container">
+        <p id="status-output"></p>
       </section>
       <section id="tic-tac-toe">
       </section>
-    </div> -->
+    </div>
 
   </main>
   <footer>

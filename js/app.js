@@ -1,25 +1,73 @@
-function createPlayer(values) {
-  const player = {
-    ...values,
-    score: 0,
+let ticTacToe = (function () {
+  const gameBoard = [null, null, null, null, null, null, null, null, null];
+  let turn = 1;
+
+  // * playerFactory ✨
+  function _createPlayer(values) {
+    const player = {
+      ...values,
+      score: 0,
+    };
+    return player;
   }
-}
 
-  let player1 = createPlayer({
-    name: 'Player 1',
-    symbol: 'X',
+  let playerOne = _createPlayer({
+    symbol: null,
   });
 
-  let player2 = createPlayer({
-    name: 'Player 2',
-    symbol: 'O',
+  let playerTwo = _createPlayer({
+    symbol: null,
   });
 
+  let scores = {
+    playerOne: playerOne.score,
+    playerTwo: playerTwo.score,
+  };
+  // ! playerFactory ✨
 
-(function () {
-  const ticTacToe = {
-    gameBoard: ['X', 'O', '', '', '', '', '', '', ''],
-    winCombos: [
+  // * cache DOM
+  const main = document.querySelector('main');
+  const gameContainer = main.querySelector('#game-container');
+  const ticTacToe = gameContainer.querySelector('#tic-tac-toe');
+  // const resetButton = gameContainer.querySelector('reset-button');
+
+  // * bind events
+  ticTacToe.addEventListener('click', _makeSelection);
+
+  events.on('playerOneSymbol', _setPlayers);
+  _render();
+
+  function _render() {
+    ticTacToe.innerHTML = '';
+
+    gameBoard.forEach((value, index) => {
+      const square = document.createElement('button');
+      square.classList.add('game-square');
+      square.setAttribute('data-index', index);
+      gameBoard[index] = null;
+      ticTacToe.appendChild(square);
+    });
+
+    turn = 1;
+    _adjustSquareHoverBackground();
+  }
+
+  function _setPlayers(symbol) {
+    console.log(symbol);
+    playerOne.symbol = symbol.playerOneSymbol;
+    playerTwo.symbol = symbol.playerOneSymbol === 'X' ? 'O' : 'X';
+  }
+
+  function _updateEmittedScores() {
+    scores.playerOne = playerOne.score;
+    scores.playerTwo = playerTwo.score;
+
+    events.emit('scoresChanged', scores);
+  }
+
+  function _checkWinner() {
+    let statusOutput = document.getElementById('status-output');
+    const winCombos = [
       [0, 1, 2],
       [0, 3, 6],
       [0, 4, 8],
@@ -28,51 +76,75 @@ function createPlayer(values) {
       [2, 5, 8],
       [3, 4, 5],
       [6, 7, 8],
-    ],
-    init: function () {
-      this.cacheDom();
-      this.render();
-    },
-    cacheDom: function () {
-      this.gameContainer = document.getElementById('game-container');
-      this.ticTacToe = this.gameContainer.querySelector('#tic-tac-toe');
-      // const gameBoardSquares = ticTacToe.querySelectorAll('.game-choice');
-      // const player1Score = ticTacToe.querySelector('.player-1__score');
-      // const player2Score = ticTacToe.querySelector('.player-2__score');
-      // const player1Name = ticTacToe.querySelector('.player-1__name');
-      // const player2Name = ticTacToe.querySelector('.player-2__name');
-      // const player1Symbol = ticTacToe.querySelector('.player-1__symbol');
-      // const player2Symbol = ticTacToe.querySelector('.player-2__symbol');
-      // const player1Turn = ticTacToe.querySelector('.player-1__turn');
-      // const player2Turn = ticTacToe.querySelector('.player-2__turn');
-      // const resetButton = ticTacToe.querySelector('.reset-button');
-    },
-    bindEvents: function () {
-      // gameContainer.addEventListener('click', );
-    },
-    render: function () {
-      this.gameBoard.forEach((gameSquare, i) => {
-        const square = document.createElement('button');
-        square.classList.add('game-square');
-        square.setAttribute('data-index', i);
-        // square.textContent = gameSquare;
-        square.textContent = i;
+    ];
 
-        this.ticTacToe.appendChild(square);
-      });
-    },
-    makeSelection: function () {
-      if (!e.target.classList.contains('game-choice')) return;
+    winCombos.forEach((combo) => {
+      const [a, b, c] = combo;
+      if (
+        gameBoard[a] &&
+        gameBoard[a] === gameBoard[b] &&
+        gameBoard[a] === gameBoard[c]
+      ) {
+        if (gameBoard[a] === playerOne.symbol) {
+          playerOne.score++;
+          statusOutput.textContent = `playerOne wins!`;
+        } else if (gameBoard[a] === playerTwo.symbol) {
+          playerTwo.score++;
+          statusOutput.textContent = `playerTwo wins!`;
+        }
 
-      let choiceIndex = e.target.getAttribute('data-index');
-      console.log(choiceIndex);
+        _updateEmittedScores();
+        _render();
+      }
+    });
 
-      if (gameBoard[choiceIndex] !== '')
-        return alert('Choose an empty square you fuck!');
-      gameBoard[choiceIndex] = 'X';
+    if (gameBoard.every((value) => value !== null)) {
+      statusOutput.textContent = `It's a tie!`;
+      _render();
+    }
+  }
 
-      render();
-    },
-  };
-ticTacToe.init();
+  function _adjustSquareHoverBackground() {
+    if (turn === 1) {
+      document.documentElement.style.setProperty(
+        '--player-hover-icon-bg',
+        'var(--x)'
+      );
+    } else if (turn === 2) {
+      document.documentElement.style.setProperty(
+        '--player-hover-icon-bg',
+        'var(--o)'
+      );
+    }
+  }
+
+  function _setGameData(selectedSquare, selectedSquareIndex) {
+    if (turn === 1) {
+      gameBoard[selectedSquareIndex] = (playerOne.symbol === 'O') ? playerTwo.symbol : playerOne.symbol;
+      selectedSquare.setAttribute('data-symbol', gameBoard[selectedSquareIndex]);
+      selectedSquare.setAttribute('data-player', (playerOne.symbol === 'O') ? 2 : 1);
+    } else if (turn === 2) {
+      gameBoard[selectedSquareIndex] = (playerOne.symbol === 'O') ? playerOne.symbol : playerTwo.symbol;
+      selectedSquare.setAttribute('data-symbol', gameBoard[selectedSquareIndex]);
+      selectedSquare.setAttribute('data-player', (playerOne.symbol === 'O') ? 1 : 2);
+    }
+  }
+
+  function _makeSelection(e) {
+    if (!e.target.classList.contains('game-square')) return;
+
+    let selectedSquare = e.target;
+    let selectedSquareIndex = +e.target.getAttribute('data-index');
+
+    if (gameBoard[selectedSquareIndex] !== null)
+      return alert('Choose an empty square you fuck!');
+
+    _setGameData(selectedSquare, selectedSquareIndex);
+
+    selectedSquare.textContent = gameBoard[selectedSquareIndex];
+
+    turn === 1 ? (turn = 2) : (turn = 1);
+    _checkWinner();
+    _adjustSquareHoverBackground();
+  }
 })();

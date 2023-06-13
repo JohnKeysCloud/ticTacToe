@@ -78,6 +78,15 @@
 	}
 }
 
+:root {
+	--player-hover-icon-bg: var(--x);
+	--x: url('../assets/media/images/x.svg') center / contain no-repeat;
+	--o: url('../assets/media/images/circle.svg') center / contain no-repeat;
+
+	--player-one-color: var(--color-inky);
+	--player-two-color: var(--color-clyde);
+}
+
 body {
   background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
   color: var(--color-mashumaro);
@@ -99,7 +108,7 @@ main #intro-container > * {
 	position: absolute;
 }
 
-main #intro-container.destroying {
+main #intro-container.inactive {
 	animation: 1.88s destroy ease-out forwards;
 } 
 
@@ -175,7 +184,7 @@ main #intro-container #intro-menu.active {
 main #intro-container #intro-menu h1 {
   color: var(--color-mashumaro);
   font-family: 'Cyclone', monospace;
-  font-size: clamp(10rem, 18vw, 15rem);
+  font-size: clamp(10rem, 18vw, 11rem);
 	line-height: 1;
 	margin-bottom: 3rem;
   text-shadow: 0 8px 8px var(--color-kuro);
@@ -215,24 +224,21 @@ main #intro-container #intro-menu.active h1 #toe {
 }
 
 main #intro-container #intro-menu #press-start-button {
+	animation: blink 888ms ease-in-out infinite alternate;
 	color: var(--color-binky);
 	cursor: pointer;
-	font-size: clamp(1.313rem, 3.5vw, 1.75rem);
+	font-size: clamp(1.125rem, 3vw, 1.313rem);
+	line-height: 1;
+	opacity: 1;
 	pointer-events: all;
 	text-shadow: 0 0 8px;
-	transition: opacity 5s ease-in-out 8s, transform 3s ease-in-out 8s;
-}
-
-main #intro-container #intro-menu #press-start-button {
-	animation: blink 888ms ease-in-out infinite alternate;
-	opacity: 1;
 	transform: translateY(0);
-	transition: transform 111ms ease-in-out;
+	transition: opacity 1s ease-in-out 3s, transform 1s ease-in-out 3s;
 }
 
 main #intro-container #intro-menu.active #press-start-button:hover {
 	animation: blink 333ms ease-in-out infinite alternate;
-	transform: scale(1.125);
+	transform: scale(1.25);
 }
 
 /* ! */
@@ -269,7 +275,7 @@ main #intro-container #game-menu #player-mark-container {
 }
 
 main #intro-container #game-menu #player-mark-container h2 {
-	font-size: clamp(1.5rem, 3vw, 2rem);
+	font-size: clamp(1rem, 3vw, 1.5rem);
 	margin-bottom: 25px;
 	text-align: center;
 }
@@ -277,12 +283,12 @@ main #intro-container #game-menu #player-mark-container h2 {
 main #intro-container #game-menu #player-mark-container #player-mark-buttons {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
-	gap: 15vw;
+	gap: 10vw;
 }
 
 main #intro-container #game-menu #player-mark-container #player-mark-buttons > * {
 	color: var(--color-mashumaro);
-	font-size: clamp(7rem, 15vw, 11rem);
+	font-size: clamp(5rem, 11vw, 8rem);
 }
 
 main #intro-container #game-menu #player-mark-container #player-mark-buttons input[type='radio'] {
@@ -389,17 +395,26 @@ main #intro-container #game-menu #players-container {
 @media screen and (min-width: 768px) {
 	main #intro-container #game-menu #players-container {
 		align-items: end;
-		gap: min(8vw, 175px);
+		gap: 5vw;
 		flex-direction: row;
 	}
 }
 
+main #intro-container #game-menu #players-container label {
+	font-size: clamp(0.8313rem, 2vw, 1rem);
+}
+
+main #intro-container #game-menu #players-container #difficulty {
+	font-size: clamp(0.8313rem, 2vw, 1rem);
+}
+
 main #intro-container #game-menu #players-container button {
-  border: 2px solid var(--color-mashumaro);
+	border: 2px solid var(--color-mashumaro);
   border-radius: 100vw;
   box-shadow: 0 0 8px;
   color: var(--color-mashumaro);
 	cursor: pointer;
+	font-size: clamp(0.8313rem, 2vw, 1rem);
   height: 100px;
   padding: 0px 20px;
 	position: relative;
@@ -430,7 +445,7 @@ main #intro-container #game-menu #players-container button:hover::before {
 	transform: scaleX(1);
 } 
 
-main #intro-container #game-menu #pvb-container {
+main #intro-container #game-menu #players-container #pvb-container {
 	align-items: center;
 	display: flex;
 	flex-direction: column;	
@@ -460,58 +475,133 @@ main #intro-container #game-menu #players-container #pvb-select-container select
 /* ! */
 /* ! */
 
-/* main #game-container.hidden {
+main #game-container.inactive {
 	opacity: 0;
 	pointer-events: none;
 	transform: scale(0);
 	visibility: hidden;
-} */
-
-main #tic-tac-toe {
-	aspect-ratio: 1 / 1;
-	/* border: 2px solid var(--color-mashumaro); */
-  display: grid;
-	grid-template-columns: repeat(3, 1fr);
-	grid-template-rows: repeat(3, 1fr);
-	gap: 0.75rem;
-
-	width: clamp(320px, 55vw, 450px);
-  position: relative;
-	flex-wrap: wrap;
 }
 
-main #tic-tac-toe .game-square {
+main #game-container {
+	margin-bottom: 5rem;
+	opacity: 1;
+	pointer-events: all;
+	transform: scale(1);
+	visibility: visible;
+	transition: all 1.88s ease-in-out;
+}
+
+main #game-container #game-heading {
+	color: hsla(210, 15%, 24%, 0.75);
+	font-family: 'Cyclone', monospace;
+	font-size: clamp(5rem, 15vw, 8rem);
+	line-height: 1;
+	margin-bottom: 1.5rem;
+	text-align: center;
+	text-shadow: 0 0 8px var(--color-kuro);
+}
+
+main #game-container #information {
+	border: 3px solid hsla(210, 15%, 24%, 0.75);
+	border-radius: 100vw;
+	box-shadow: inset 0 0 11px hsla(210, 15%, 24%, 0.75), 0 0 8px var(--color-kuro);
+	margin-bottom: 1rem;
+	width: clamp(320px, 55vw, 450px);
+}
+
+main #game-container #information #score-table {
+	font-family: 'pixeBoy', monospace;
+	text-align: center;
+	text-shadow: 0 0 5px;
+	width: 100%;
+}
+
+main #game-container #information #score-heading {
+	font-size: clamp(1.625rem, 5vw, 2.125rem);
+	line-height: 1.5;
+}
+
+main #game-container #information .player-title {
+	font-size: clamp(1.25rem, 3vw, 1.5rem);
+	line-height: 1;
+}
+
+main #game-container #information .player-score {
+	font-size: clamp(2.75rem, 7vw, 3.625rem);
+	line-height: 1;
+}
+
+main #game-container #information #player-one-score {
+	color: var(--player-one-color);
+}
+
+main #game-container #information #player-two-score {
+	color: var(--player-two-color);
+}
+
+main #game-container #status-output-container {
+  display: grid;
+  font-size: clamp(1rem, 2.5vw, 1.313rem);
+  height: 2.5rem;
+  margin-bottom: 1rem;
+  place-items: center;
+}
+
+main #game-container #tic-tac-toe {
+  aspect-ratio: 1 / 1;
+  display: grid;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  margin-inline: auto;
+  position: relative;
+  width: clamp(320px, 50vw, 400px);
+}
+
+main #game-container #tic-tac-toe .game-square {
 	border-radius: 33px;
-	color: white;
+	color: var(--color-mashumaro);
 	cursor: pointer;
 	background-color: hsla(210, 15%, 24%, 0.75);
 	font-weight: 500;
 	font-size: 3rem;
+	position: relative;
 	text-shadow: 0 0 8px;
 	transition: transform 111ms ease-in-out;
 }
 
-main #tic-tac-toe .game-square:hover {
+main #game-container #tic-tac-toe .game-square::before {
+  display: grid;
+	background: var(--player-hover-icon-bg);
+	content: '';
+  inset: 0;
+	opacity: 0;
+	height: 50%;
+	margin: auto;
+	width: 50%;
+  place-items: center;
+  position: absolute;
+} 
+
+main #game-container #tic-tac-toe .game-square:hover::before {
+	opacity: 0.7;
+}
+
+main #game-container #tic-tac-toe .game-square[data-player="1"] {
+	color: var(--player-one-color);
+}
+
+main #game-container #tic-tac-toe .game-square[data-player="2"] {
+	color: var(--player-two-color);
+}
+
+main #game-container #tic-tac-toe .game-square[data-symbol="X"]:hover::before, 
+main #game-container #tic-tac-toe .game-square[data-symbol="O"]:hover::before {
+	opacity: 0;
+}
+
+main #game-container #tic-tac-toe .game-square:hover {
 	opacity: 0.8;
 	transform: scale(1.03);
-
-}
-
-main #tic-tac-toe #top-row {
-  border-bottom: 3px solid var(--color-mashumaro);
-}
-
-main #tic-tac-toe #middle-row {
-  border-bottom: 3px solid var(--color-mashumaro);
-  /* border-radius: 25px; */
-}
-
-main #tic-tac-toe .game-choice {
-  cursor: pointer;
-  color: var(--color-mashumaro);
-
-  font-size: 2rem;
-  height: 8rem;
-  width: 8rem;
-  line-height: 1;
 }

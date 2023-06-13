@@ -302,7 +302,7 @@ footer {
 
 footer p {
   color: var(--footer-text);
-  font-size: 1rem;
+  font-size: 0.8313rem;
 }
 
 footer #cycloneContainer {
@@ -334,7 +334,7 @@ footer:hover #footnote {
 
 footer #poweredBy {
   color: var(--color-binky);
-  font-size: 0.875rem;
+  font-size: 0.8313rem;
   text-shadow: 0 0 5px;
   -webkit-transform: scale(0);
   transform: scale(0);
