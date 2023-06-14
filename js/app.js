@@ -37,6 +37,8 @@ let ticTacToe = (function () {
   const ticTacToe = gameContainer.querySelector('#tic-tac-toe');
   const gameOverModal = gameContainer.querySelector('#game-over-modal');
   const easterEgg = gameOverModal.querySelector('#cyclone-c-button');
+  const playAgainButton = gameOverModal.querySelector('#play-again-button');
+  const restartProgramButton = gameOverModal.querySelector('#restart-program-button');
   // const resetButton = gameContainer.querySelector('reset-button');
 
   // * bind events
@@ -44,6 +46,7 @@ let ticTacToe = (function () {
   easterEgg.addEventListener('click', () => {
     document.body.classList.toggle('easterEgg');
   });
+  playAgainButton.addEventListener('click', _resetGame);
 
   events.on('playerOneSymbol', _setPlayers);
   _render();
@@ -63,8 +66,23 @@ let ticTacToe = (function () {
     _adjustSquareHoverBackground();
   }
 
+  function _resetGame() { 
+    _render();
+    playerOne.score = 0;
+    playerTwo.score = 0;
+    _updateEmittedScores();
+
+    const handleAnimationEnd = () => {
+      gameOverModal.removeAttribute('closing', '');
+      gameOverModal.close();
+      gameOverModal.removeEventListener('animationend', handleAnimationEnd);
+    };
+
+    gameOverModal.setAttribute('closing', '');
+    gameOverModal.addEventListener('animationend', handleAnimationEnd);
+  }
+
   function _setPlayers(symbol) {
-    console.log(symbol);
     playerOne.symbol = symbol.playerOneSymbol;
     playerTwo.symbol = symbol.playerOneSymbol === 'X' ? 'O' : 'X';
   }

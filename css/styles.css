@@ -657,13 +657,61 @@ main #game-container #game-over-modal {
 	border: 8px solid black;
 	box-shadow: 0 0 8px var(--color-mashumaro);
 	transition: border-radius 2.22s linear;
-	/* max-width: */
+}
 
+@keyframes fade-in {
+	from {
+		opacity: 0;
+		transform: scale(0);
+	}
+	80% {
+		opacity: 0.75;
+		transform: scale(1);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+@keyframes fade-out {
+	from {
+		opacity: 1;
+		transform: scale(1);
+	}
+	80% {
+		opacity: 0.75;
+		transform: scale(1);
+	}
+	to {
+		opacity: 0;
+		transform: scale(0);
+	}
+}
+@keyframes backdrop-fade-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 0.3;
+	}
+}
+
+main #game-container #game-over-modal[open] {
+	animation: fade-in 888ms ease-in-out forwards;
+} 
+
+main #game-container #game-over-modal[closing] {
+	animation: fade-out 888ms ease-in-out forwards;
 }
 
 main #game-container #game-over-modal::backdrop {
 	background: url('../assets/media/images/space.gif') center / cover no-repeat;
 	opacity: 0.1;
+}
+
+main #game-container #game-over-modal[open]::backdrop {
+	animation: backdrop-fade-in 888ms ease-in forwards;
 }
 
 main #game-container #game-over-modal #cyclone-c-container {
