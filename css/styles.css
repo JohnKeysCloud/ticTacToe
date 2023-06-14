@@ -78,7 +78,20 @@
 	}
 }
 
+@keyframes move {
+	from {
+		transform: translateX(-88%) rotate(-3turn);
+	}
+	to {
+		transform: translateX(88%) rotate(3turn);
+	}
+}
+
 :root {
+	--background-current: var(--background-default);
+	--background-default: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+	--background-easter-egg: url('../assets/media/images/space.gif') center / cover no-repeat;
+
 	--player-hover-icon-bg: var(--x);
 	--x: url('../assets/media/images/x.svg') center / contain no-repeat;
 	--o: url('../assets/media/images/circle.svg') center / contain no-repeat;
@@ -88,9 +101,43 @@
 }
 
 body {
-  background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
+	background: var(--background-current);
   color: var(--color-mashumaro);
   font-family: 'Space Mono', monospace;
+}
+
+body.easterEgg::before {
+	opacity: 1;
+}
+
+body::before {
+	background: var(--background-easter-egg); 
+	content: '';
+	display: block;
+	height: 100vh;
+	left: 0;
+	opacity: 0;
+	position: fixed;
+	top: 0;
+	transition: opacity 0.88s ease-in-out;
+	width: 100vw;
+	z-index: -1;
+}
+
+h1 {
+	font-size: clamp(10rem, 18vw, 11rem);
+}
+
+h2 {
+	font-size: clamp(5rem, 15vw, 8rem);
+}
+
+h3 {
+	font-size: clamp(1.675rem, 4.5vw, 2.313rem);
+}
+
+h4 {
+	font-size: clamp(1rem, 3vw, 1.5rem);
 }
 
 main {
@@ -184,7 +231,6 @@ main #intro-container #intro-menu.active {
 main #intro-container #intro-menu h1 {
   color: var(--color-mashumaro);
   font-family: 'Cyclone', monospace;
-  font-size: clamp(10rem, 18vw, 11rem);
 	line-height: 1;
 	margin-bottom: 3rem;
   text-shadow: 0 8px 8px var(--color-kuro);
@@ -274,8 +320,7 @@ main #intro-container #game-menu #player-mark-container {
 	flex-direction: column;
 }
 
-main #intro-container #game-menu #player-mark-container h2 {
-	font-size: clamp(1rem, 3vw, 1.5rem);
+main #intro-container #game-menu #player-mark-container #marker-choice-heading {
 	margin-bottom: 25px;
 	text-align: center;
 }
@@ -494,7 +539,6 @@ main #game-container {
 main #game-container #game-heading {
 	color: hsla(210, 15%, 24%, 0.75);
 	font-family: 'Cyclone', monospace;
-	font-size: clamp(5rem, 15vw, 8rem);
 	line-height: 1;
 	margin-bottom: 1.5rem;
 	text-align: center;
@@ -604,4 +648,108 @@ main #game-container #tic-tac-toe .game-square[data-symbol="O"]:hover::before {
 main #game-container #tic-tac-toe .game-square:hover {
 	opacity: 0.8;
 	transform: scale(1.03);
+}
+
+main #game-container #game-over-modal {
+	aspect-ratio: 1 / 1;
+	position: relative;
+	background: var(--background-current);
+	border: 8px solid black;
+	box-shadow: 0 0 8px var(--color-mashumaro);
+	transition: border-radius 2.22s linear;
+	/* max-width: */
+
+}
+
+main #game-container #game-over-modal::backdrop {
+	background: url('../assets/media/images/space.gif') center / cover no-repeat;
+	opacity: 0.1;
+}
+
+main #game-container #game-over-modal #cyclone-c-container {
+	display: grid;
+	place-items: center;
+}
+
+main #game-container #game-over-modal #cyclone-c-container #cyclone-c-button {
+	animation: move 8.88s ease-in-out infinite alternate;
+	cursor: pointer;
+	/* display: inline-block; */
+	transition: opacity 88ms ease-in-out;
+}
+
+main #game-container #game-over-modal #cyclone-c-container #cyclone-c-button:hover {
+	animation-play-state: paused;
+}
+
+main #game-container #game-over-modal #cyclone-c-container #cyclone-c-button:active {
+	opacity: 0.55;
+}
+
+main #game-container #game-over-modal #cyclone-c-container #cyclone-c-image {
+	aspect-ratio: 1 / 1;
+	display: inline-block;
+	filter: drop-shadow(0 0 8px var(--color-binky));
+	pointer-events: none;
+	width: clamp(88px, 15vw, 111px);
+}
+
+main #game-container #game-over-modal #dialog-heading {
+	color: var(--color-binky);
+	font-family: 'pixeBoy', monospace;
+	line-height: 1;
+	text-shadow: 0 0 8px;
+}
+
+main #game-container #game-over-modal #dialog-winner-output {
+	color: white;
+	margin-bottom: 1rem;
+	text-align: center;
+}
+
+main #game-container #game-over-modal #dialog-button-container {
+	align-items: center;
+	display: flex;
+	flex-direction: column;
+	/* border: 2px solid red; */
+	gap: 1rem;
+	justify-content: center;
+}
+
+main #game-container #game-over-modal #dialog-button-container .dialog-button {
+  color: white;
+  cursor: pointer;
+  font-size: clamp(1rem, 3vw, 1.675rem);
+  outline: none;
+  position: relative;
+}
+
+main #game-container #game-over-modal #dialog-button-container .dialog-button::before {
+  background-color: rgba(0, 0, 0, 0.555);
+  border: 3px solid rgba(0, 0, 0, 0.673);
+  border-radius: 100vw;
+  content: '';
+  inset: 0;
+  opacity: 0.33;
+  position: absolute;
+  transform: scale(0);
+  transition: transform 188ms ease-in-out 33ms, opacity 1s ease-in-out 88ms;
+  z-index: -1;
+} 
+
+main #game-container #game-over-modal #dialog-button-container .dialog-button:hover::before, 
+main #game-container #game-over-modal #dialog-button-container .dialog-button:focus::before,
+main #game-container #game-over-modal #dialog-button-container .dialog-button:focus-visible::before {
+	opacity: 1;
+	transform: scale(1.3);
+} 
+
+main #game-container #game-over-modal #dialog-button-container .dialog-button:first-child {
+	margin-bottom: 1rem;
+	color: var(--color-funky);
+
+}
+
+main #game-container #game-over-modal #dialog-button-container .dialog-button:last-child {
+	color: var(--color-binky);
 }

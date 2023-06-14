@@ -20,7 +20,6 @@
 </head>
 <body>
   <main>
-
     <section id="intro-container">
       <section id="intro-presents" class="active no-select">
         <img id="mega-logo" src="assets/media/images/logos/cycloneStudios.svg" alt="Cyclone Studios Logo"/>
@@ -38,7 +37,7 @@
       </section>
       <section id="game-menu" class="inactive no-select"> 
         <section id="player-mark-container">
-          <h2>player one, <br> select your marker:</h2>
+          <h4 id="marker-choice-heading">player one, <br> select your marker:</h4>
           <div id="player-mark-buttons">
             <input type="radio" name="player-mark" id="x" value="X">
             <label class="radio-label" for="x" aria-label="Player One">
@@ -68,9 +67,7 @@
         </div>
       </section>
     </section>
-
-
-    <div id="game-container" class="inactive"> 
+    <section id="game-container" class="inactive"> 
       <h2 id="game-heading">tic tac toe</h2>
       <section id="information">
         <table id="score-table">
@@ -99,8 +96,22 @@
       </section>
       <section id="tic-tac-toe">
       </section>
-    </div>
-
+      <dialog id="game-over-modal">
+        <div id="dialog-container">
+          <div id="cyclone-c-container">
+            <button id="cyclone-c-button" aria-label="Easter-Egg Button">
+              <img class="no-select" id="cyclone-c-image" src="assets/media/images/logos/cyclone-c.webp" alt="Cyclone Studios Logo">
+            </button>
+          </div>
+          <h2 id="dialog-heading">GAME OVER</h2>
+          <h3 id="dialog-winner-output"></h3>
+          <div id="dialog-button-container">
+            <!-- <button class="dialog-button" id="play-again-button" type="button">play again</button> -->
+            <!-- <button class="dialog-button" id="restart-game" type="button">restart program</button> -->
+          </div>
+        </div>
+      </dialog>
+    </section>
   </main>
   <footer>
     <p id="footnote">© <span id='footerYear'></span> Cyclone Studios™. All Rights Reserved</p>

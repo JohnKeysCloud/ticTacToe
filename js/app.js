@@ -1,6 +1,12 @@
 let ticTacToe = (function () {
   const gameBoard = [null, null, null, null, null, null, null, null, null];
+  const random = () => {
+    return Math.floor(Math.random() * 1000000);
+  };
   let turn = 1;
+  let last = 0;
+  let changeSpeed = 1500;
+  let rAF;
 
   // * playerFactory ✨
   function _createPlayer(values) {
@@ -29,10 +35,15 @@ let ticTacToe = (function () {
   const main = document.querySelector('main');
   const gameContainer = main.querySelector('#game-container');
   const ticTacToe = gameContainer.querySelector('#tic-tac-toe');
+  const gameOverModal = gameContainer.querySelector('#game-over-modal');
+  const easterEgg = gameOverModal.querySelector('#cyclone-c-button');
   // const resetButton = gameContainer.querySelector('reset-button');
 
   // * bind events
   ticTacToe.addEventListener('click', _makeSelection);
+  easterEgg.addEventListener('click', () => {
+    document.body.classList.toggle('easterEgg');
+  });
 
   events.on('playerOneSymbol', _setPlayers);
   _render();
@@ -65,7 +76,16 @@ let ticTacToe = (function () {
     events.emit('scoresChanged', scores);
   }
 
-  function _checkWinner() {
+  function _openGameOverModal(winner) {
+    let gameWinnerOutput = gameOverModal.querySelector('#dialog-winner-output');
+
+    gameWinnerOutput.textContent = `${winner} wins!`
+    gameOverModal.showModal();
+  
+    gameOverModal.addEventListener('cancel', (e) => e.preventDefault());
+  }
+
+  function _checkRoundWinner() {
     let statusOutput = document.getElementById('status-output');
     const winCombos = [
       [0, 1, 2],
@@ -94,6 +114,15 @@ let ticTacToe = (function () {
         }
 
         _updateEmittedScores();
+
+        if (playerOne.score === 5) {
+          _openGameOverModal('playerOne');
+          return;
+        } else if (playerTwo.score === 5) {
+          _openGameOverModal('playerTwo');
+          return;
+        }
+        
         _render();
       }
     });
@@ -144,7 +173,20 @@ let ticTacToe = (function () {
     selectedSquare.textContent = gameBoard[selectedSquareIndex];
 
     turn === 1 ? (turn = 2) : (turn = 1);
-    _checkWinner();
+    _checkRoundWinner();
     _adjustSquareHoverBackground();
   }
+
+  function _morphModal(now) {
+    if (!last || now - last >= changeSpeed) {
+      last = now;
+
+      gameOverModal.style.borderBottomLeftRadius = `${random()}px ${random()}px`;
+      gameOverModal.style.borderBottomRightRadius = `${random()}px ${random()}px`;
+      gameOverModal.style.borderTopLeftRadius = `${random()}px ${random()}px`;
+      gameOverModal.style.borderTopRightRadius = `${random()}px ${random()}px`;
+    }
+    rAF = requestAnimationFrame(_morphModal);
+  }
+  _morphModal(last);
 })();
