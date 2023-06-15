@@ -35,11 +35,11 @@ let ticTacToe = (function () {
   const main = document.querySelector('main');
   const gameContainer = main.querySelector('#game-container');
   const ticTacToe = gameContainer.querySelector('#tic-tac-toe');
+  const statusOutput = document.getElementById('status-output');
   const gameOverModal = gameContainer.querySelector('#game-over-modal');
   const easterEgg = gameOverModal.querySelector('#cyclone-c-button');
   const playAgainButton = gameOverModal.querySelector('#play-again-button');
   const restartProgramButton = gameOverModal.querySelector('#restart-program-button');
-  // const resetButton = gameContainer.querySelector('reset-button');
 
   // * bind events
   ticTacToe.addEventListener('click', _makeSelection);
@@ -47,11 +47,13 @@ let ticTacToe = (function () {
     document.body.classList.toggle('easterEgg');
   });
   playAgainButton.addEventListener('click', _resetGame);
+  restartProgramButton.addEventListener('click', () => {
+    window.location.reload();
+  });
 
   events.on('playerOneSymbol', _setPlayers);
-  _render();
 
-  function _render() {
+  function render() {
     ticTacToe.innerHTML = '';
 
     gameBoard.forEach((value, index) => {
@@ -62,12 +64,13 @@ let ticTacToe = (function () {
       ticTacToe.appendChild(square);
     });
 
+    playerOne.symbol === 'X' ? statusOutput.textContent = `playerOne's turn` : statusOutput.textContent = `playerTwo's turn`; 
     turn = 1;
     _adjustSquareHoverBackground();
   }
 
   function _resetGame() { 
-    _render();
+    render();
     playerOne.score = 0;
     playerTwo.score = 0;
     _updateEmittedScores();
@@ -104,7 +107,6 @@ let ticTacToe = (function () {
   }
 
   function _checkRoundWinner() {
-    let statusOutput = document.getElementById('status-output');
     const winCombos = [
       [0, 1, 2],
       [0, 3, 6],
@@ -141,13 +143,15 @@ let ticTacToe = (function () {
           return;
         }
         
-        _render();
+        // ! animation to allow round winner to be displayed before resetting game
+
+        render();
       }
     });
 
     if (gameBoard.every((value) => value !== null)) {
       statusOutput.textContent = `It's a tie!`;
-      _render();
+      render();
     }
   }
 
@@ -190,6 +194,10 @@ let ticTacToe = (function () {
 
     selectedSquare.textContent = gameBoard[selectedSquareIndex];
 
+    statusOutput.textContent === `playerOne's turn`
+      ? statusOutput.textContent = `playerTwo's turn`
+      : statusOutput.textContent = `playerOne's turn`;
+    
     turn === 1 ? (turn = 2) : (turn = 1);
     _checkRoundWinner();
     _adjustSquareHoverBackground();
@@ -207,4 +215,8 @@ let ticTacToe = (function () {
     rAF = requestAnimationFrame(_morphModal);
   }
   _morphModal(last);
+
+  return {
+    render: render
+  }
 })();

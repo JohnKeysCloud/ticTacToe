@@ -71,6 +71,8 @@ const intro = (function () {
       } else if (e.target.id === 'pvp-button') {
         events.emit('playerOneSymbol', playerOneSymbol);
       }
+
+      ticTacToe.render();
     }
   };
   wireFrame.init();
