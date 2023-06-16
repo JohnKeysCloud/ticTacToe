@@ -123,6 +123,7 @@ let ticTacToe = (function () {
 
     gameWinnerOutput.textContent = `${winner} wins!`
     gameOverModal.showModal();
+    easterEgg.blur();
     gameOverModal.addEventListener('cancel', (e) => e.preventDefault());
 
     _morphModal(last);

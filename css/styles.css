@@ -262,11 +262,11 @@ h1 {
 }
 
 h2 {
-	font-size: clamp(5rem, 15vw, 8rem);
+	font-size: clamp(3.5rem, 15vw, 8rem);
 }
 
 h3 {
-	font-size: clamp(1.675rem, 4.5vw, 2.313rem);
+	font-size: clamp(1.313rem, 4.5vw, 2.313rem);
 }
 
 h4 {
@@ -276,7 +276,7 @@ h4 {
 main {
   display: grid;
   min-height: 100vh;
-	/* overflow: hidden; */
+	overflow: hidden;
 	position: relative;
   place-items: center;
 }
@@ -805,11 +805,14 @@ main #game-container #game-over-modal {
 	background: var(--background-current);
 	border: 8px solid black;
 	box-shadow: 0 0 8px var(--color-mashumaro);
+	place-items: center;
+	width: min(80vw, 555px);
 	transition: border-radius 2.22s linear;
 }
 
 main #game-container #game-over-modal[open] {
 	animation: fade-in 1.33s ease-in-out forwards;
+	display: grid;
 } 
 
 main #game-container #game-over-modal[closing] {
@@ -836,13 +839,20 @@ main #game-container #game-over-modal #cyclone-c-container {
 
 main #game-container #game-over-modal #cyclone-c-container #cyclone-c-button {
 	animation: move 8.88s ease-in-out infinite alternate;
+	border-radius: 50%;
 	cursor: pointer;
-	/* display: inline-block; */
-	transition: opacity 88ms ease-in-out;
+	transition: opacity 88ms ease-in-out, transform 380ms ease-in-out;
 }
 
 main #game-container #game-over-modal #cyclone-c-container #cyclone-c-button:hover {
 	animation-play-state: paused;
+}
+
+main #game-container #game-over-modal #cyclone-c-container #cyclone-c-button:focus,
+main #game-container #game-over-modal #cyclone-c-container #cyclone-c-button:focus-visible {
+	animation-play-state: paused;
+	outline: 3px dashed	 rgba(255, 0, 0, 0.555);
+	outline-offset: 0.5rem;
 }
 
 main #game-container #game-over-modal #cyclone-c-container #cyclone-c-button:active {
@@ -861,6 +871,7 @@ main #game-container #game-over-modal #dialog-heading {
 	color: var(--color-binky);
 	font-family: 'pixeBoy', monospace;
 	line-height: 1;
+	text-align: center;
 	text-shadow: 0 0 8px;
 }
 
@@ -908,7 +919,6 @@ main #game-container #game-over-modal #dialog-button-container .dialog-button:fo
 } 
 
 main #game-container #game-over-modal #dialog-button-container .dialog-button:first-child {
-	margin-bottom: 1rem;
 	color: var(--color-funky);
 
 }
