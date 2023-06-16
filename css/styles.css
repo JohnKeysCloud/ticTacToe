@@ -8,6 +8,95 @@
   }
 }
 
+@keyframes winner-blink {
+	from {
+		opacity: 1;
+		transform: scale(1);
+	}
+	10% {
+		opacity: 0;
+		transform: scale(1.3);
+	}
+	20% {
+		opacity: 1;
+		transform: scale(1.3);
+	}
+	30% { 
+		opacity: 0;
+		transform: scale(1.3);
+	}
+	40% {
+		opacity: 1;
+		transform: scale(1.3);
+	}
+	50% {
+		opacity: 0;
+		transform: scale(1.3);
+	}
+	60% {
+		opacity: 1;
+		transform: scale(1.3);
+	}
+	70% {
+		opacity: 0;
+		transform: scale(1.3);
+	}
+	80% {
+		opacity: 1;
+		transform: scale(1.3);
+	}
+	90% {
+		opacity: 0;
+		transform: scale(1);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+@keyframes clear {
+	from {
+		opacity: 1;
+		transform: scale(1) translateX(0px) rotate(0turn);
+	}
+	10% {
+		opacity: 0.5;
+		transform: scale(1) translateX(-25px) rotate(-1turn);
+	}
+	20% {
+		opacity: 1;
+		transform: scale(1) translateX(0px) rotate(0turn);
+	}
+	30% { 
+		opacity: 0.5;
+		transform: scale(1) translateX(25px) rotate(1turn);
+	}
+	40% {
+		opacity: 1;
+		transform: scale(1) translateX(0) rotate(3turn);
+	}
+	50% {
+		opacity: 0;
+	}
+	60% {
+		opacity: 1;
+	}
+	70% {
+		opacity: 0;
+	}
+	80% {
+		opacity: 1;
+	}
+	90% {
+		opacity: 1;
+	}
+	to {
+		opacity: 0;
+		transform: scale(0) translateX(0px) rotate(3turn);
+	}
+}
+
 @keyframes flicker {
 	0% {
 		opacity: 1;
@@ -84,6 +173,50 @@
 	}
 	to {
 		transform: translateX(88%) rotate(3turn);
+	}
+}
+
+@keyframes fade-in {
+	from {
+		opacity: 0;
+		transform: scale(0);
+	}
+	70% {
+		opacity: 0.75;
+		transform: scale(1);
+	}
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}
+
+@keyframes fade-out {
+	from {
+		opacity: 1;
+		transform: scale(1);
+	}
+	to {
+		opacity: 0;
+		transform: scale(0);
+	}
+}
+
+@keyframes backdrop-fade-in {
+	from {
+		opacity: 0;
+	}
+	to {
+		opacity: 0.3;
+	}
+}
+
+@keyframes backdrop-fade-out {
+	from {
+		opacity: 0.3;
+	}
+	to {
+		opacity: 0;
 	}
 }
 
@@ -243,11 +376,15 @@ main #intro-container.destroying #intro-menu h1 {
 
 main #intro-container #intro-menu.inactive h1 #tic,
 main #intro-container #intro-menu.inactive h1 #tac,
-main #intro-container #intro-menu.inactive h1 #toe,
-main #intro-container #intro-menu.inactive #press-start-button {
+main #intro-container #intro-menu.inactive h1 #toe {
   opacity: 0;
 	transform: translateY(-100vh); 
 	transition: opacity 2s ease-in-out, transform 2s ease-in-out;
+}
+
+main #intro-container #intro-menu.inactive #press-start-button {
+	opacity: 0;
+	transition: opacity 2s ease-in-out;
 }
 
 main #intro-container #intro-menu.active h1 #tic,
@@ -278,8 +415,7 @@ main #intro-container #intro-menu #press-start-button {
 	opacity: 1;
 	pointer-events: all;
 	text-shadow: 0 0 8px;
-	transform: translateY(0);
-	transition: opacity 1s ease-in-out 3s, transform 1s ease-in-out 3s;
+	transition: transform 1s ease-in-out 3s;
 }
 
 main #intro-container #intro-menu.active #press-start-button:hover {
@@ -591,6 +727,10 @@ main #game-container #status-output-container {
   place-items: center;
 }
 
+main #game-container #status-output.blink {
+	animation: winner-blink 1.55s ease-in-out;
+}
+
 main #game-container #tic-tac-toe {
   aspect-ratio: 1 / 1;
   display: grid;
@@ -608,12 +748,21 @@ main #game-container #tic-tac-toe .game-square {
 	color: var(--color-mashumaro);
 	cursor: pointer;
 	background-color: hsla(210, 15%, 24%, 0.75);
-	font-weight: 500;
-	font-size: 3rem;
 	position: relative;
 	text-shadow: 0 0 8px;
 	transition: transform 111ms ease-in-out;
 }
+
+main #game-container #tic-tac-toe .game-square .symbol {
+	display: inline-block;
+	font-weight: 500;
+	font-size: 3rem;
+	text-shadow: 0 0 8px;
+}
+
+main #game-container #tic-tac-toe .game-square .symbol.clearing {
+	animation: clear 1.55s ease-in-out forwards;
+} 
 
 main #game-container #tic-tac-toe .game-square::before {
   display: grid;
@@ -632,11 +781,11 @@ main #game-container #tic-tac-toe .game-square:hover::before {
 	opacity: 0.7;
 }
 
-main #game-container #tic-tac-toe .game-square[data-player="1"] {
+main #game-container #tic-tac-toe .game-square[data-player="1"] .symbol {
 	color: var(--player-one-color);
 }
 
-main #game-container #tic-tac-toe .game-square[data-player="2"] {
+main #game-container #tic-tac-toe .game-square[data-player="2"] .symbol {
 	color: var(--player-two-color);
 }
 
@@ -659,50 +808,12 @@ main #game-container #game-over-modal {
 	transition: border-radius 2.22s linear;
 }
 
-@keyframes fade-in {
-	from {
-		opacity: 0;
-		transform: scale(0);
-	}
-	80% {
-		opacity: 0.75;
-		transform: scale(1);
-	}
-	to {
-		opacity: 1;
-		transform: scale(1);
-	}
-}
-
-@keyframes fade-out {
-	from {
-		opacity: 1;
-		transform: scale(1);
-	}
-	80% {
-		opacity: 0.75;
-		transform: scale(1);
-	}
-	to {
-		opacity: 0;
-		transform: scale(0);
-	}
-}
-@keyframes backdrop-fade-in {
-	from {
-		opacity: 0;
-	}
-	to {
-		opacity: 0.3;
-	}
-}
-
 main #game-container #game-over-modal[open] {
-	animation: fade-in 888ms ease-in-out forwards;
+	animation: fade-in 1.33s ease-in-out forwards;
 } 
 
 main #game-container #game-over-modal[closing] {
-	animation: fade-out 888ms ease-in-out forwards;
+	animation: fade-out 1.33s ease-in-out forwards;
 }
 
 main #game-container #game-over-modal::backdrop {
@@ -711,7 +822,11 @@ main #game-container #game-over-modal::backdrop {
 }
 
 main #game-container #game-over-modal[open]::backdrop {
-	animation: backdrop-fade-in 888ms ease-in forwards;
+	animation: backdrop-fade-in 1.33s ease-in forwards;
+}
+
+main #game-container #game-over-modal[closing]::backdrop {
+	animation: backdrop-fade-out 1.33s ease-in forwards;
 }
 
 main #game-container #game-over-modal #cyclone-c-container {

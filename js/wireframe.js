@@ -64,7 +64,8 @@ const intro = (function () {
     initializeGame: function (e) {      
       if (e.target.id !== 'pvb-button' && e.target.id !== 'pvp-button') return;
       
-      let playerOneSymbol = this.setPlayerOneSymbol();
+      let playerOneSymbol = this.setPlayerOneSymbol() || 'you fucked up';
+      if (playerOneSymbol === 'you fucked up') return;
       
       if (e.target.id === 'pvb-button') {
         return;

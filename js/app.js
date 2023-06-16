@@ -5,7 +5,7 @@ let ticTacToe = (function () {
   };
   let turn = 1;
   let last = 0;
-  let changeSpeed = 1500;
+  let changeSpeed = 888;
   let rAF;
 
   // * playerFactory ✨
@@ -58,15 +58,35 @@ let ticTacToe = (function () {
 
     gameBoard.forEach((value, index) => {
       const square = document.createElement('button');
+      const symbolSpan = document.createElement('span');
+      symbolSpan.classList.add('symbol');
       square.classList.add('game-square');
       square.setAttribute('data-index', index);
       gameBoard[index] = null;
+      square.appendChild(symbolSpan);
       ticTacToe.appendChild(square);
     });
 
     playerOne.symbol === 'X' ? statusOutput.textContent = `playerOne's turn` : statusOutput.textContent = `playerTwo's turn`; 
     turn = 1;
     _adjustSquareHoverBackground();
+  }
+
+  function _clearBoard(dataSymbol) {
+    let symbols = ticTacToe.querySelectorAll('.symbol');
+
+    ticTacToe.removeEventListener('click', _makeSelection);
+    statusOutput.classList.add('blink');
+    
+    symbols.forEach((symbol) => {
+      symbol.classList.add('clearing');
+      symbol.addEventListener('animationend', () => {
+        symbol.classList.remove('clearing');
+        render();
+        ticTacToe.addEventListener('click', _makeSelection);
+        statusOutput.classList.remove('blink');
+      });
+    });
   }
 
   function _resetGame() { 
@@ -76,6 +96,7 @@ let ticTacToe = (function () {
     _updateEmittedScores();
 
     const handleAnimationEnd = () => {
+      cancelAnimationFrame(rAF);
       gameOverModal.removeAttribute('closing', '');
       gameOverModal.close();
       gameOverModal.removeEventListener('animationend', handleAnimationEnd);
@@ -102,8 +123,9 @@ let ticTacToe = (function () {
 
     gameWinnerOutput.textContent = `${winner} wins!`
     gameOverModal.showModal();
-  
     gameOverModal.addEventListener('cancel', (e) => e.preventDefault());
+
+    _morphModal(last);
   }
 
   function _checkRoundWinner() {
@@ -136,22 +158,21 @@ let ticTacToe = (function () {
         _updateEmittedScores();
 
         if (playerOne.score === 5) {
-          _openGameOverModal('playerOne');
-          return;
+          _clearBoard();
+          return _openGameOverModal('playerOne');
         } else if (playerTwo.score === 5) {
-          _openGameOverModal('playerTwo');
-          return;
+          _clearBoard();
+          return _openGameOverModal('playerTwo');
         }
-        
-        // ! animation to allow round winner to be displayed before resetting game
-
-        render();
+        return _clearBoard();
       }
     });
 
     if (gameBoard.every((value) => value !== null)) {
+      console.log(gameBoard);
       statusOutput.textContent = `It's a tie!`;
-      render();
+
+      _clearBoard();
     }
   }
 
@@ -185,14 +206,15 @@ let ticTacToe = (function () {
     if (!e.target.classList.contains('game-square')) return;
 
     let selectedSquare = e.target;
-    let selectedSquareIndex = +e.target.getAttribute('data-index');
+    let selectedSquareIndex = +selectedSquare.getAttribute('data-index');
+    let selectedSquareSymbolSpan = selectedSquare.querySelector('.symbol');
 
     if (gameBoard[selectedSquareIndex] !== null)
-      return alert('Choose an empty square you fuck!');
+      return alert('Do you not see that there\'s a symbol there? You fuck.');
 
     _setGameData(selectedSquare, selectedSquareIndex);
 
-    selectedSquare.textContent = gameBoard[selectedSquareIndex];
+    selectedSquareSymbolSpan.textContent = gameBoard[selectedSquareIndex];
 
     statusOutput.textContent === `playerOne's turn`
       ? statusOutput.textContent = `playerTwo's turn`
@@ -214,7 +236,6 @@ let ticTacToe = (function () {
     }
     rAF = requestAnimationFrame(_morphModal);
   }
-  _morphModal(last);
 
   return {
     render: render
