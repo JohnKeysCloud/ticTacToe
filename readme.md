@@ -1,5 +1,5 @@
 # ticTacToe
-<img width="854" alt="ticTacToe" src="https://github.com/JohnKeysCloud/ticTacToe/assets/90482169/3be3ed2b-1797-4479-8b48-e49e8ee6b8a6">
+<a href="https://johnkeyscloud.github.io/ticTacToe/" target="_blank"><img width="854" alt="ticTacToe" src="https://github.com/JohnKeysCloud/ticTacToe/assets/90482169/3be3ed2b-1797-4479-8b48-e49e8ee6b8a6"></a>
 
 A ticTacToe game, built for <a href="https://www.theodinproject.com/lessons/node-path-javascript-tic-tac-toe" target="_blank">The Odin Project</a>. The main objective was to use the module pattern in it's implementation.
 
